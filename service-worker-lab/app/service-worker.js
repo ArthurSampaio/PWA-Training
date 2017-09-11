@@ -5,6 +5,8 @@
     console.log('Service worker installing...');
     //good place for caching static assets
     // TODO 3.4: Skip waiting
+    self.skipWaiting();
+
   });
 
   self.addEventListener('activate', function (event) {
@@ -15,7 +17,6 @@
   //3.3: Update the service worker
   // Im a new service workern          nnnnn
 
-  self.skipWaiting();
 
 
   // TODO - 4: Add fetch listener
