@@ -34,40 +34,69 @@ var app = (function () {
   }
 
   function showImage(responseAsBlob) {
-    //  TODO 3a
+    var container = document.getElementById('container');
+    var imgElem = document.createElement('img');
+    container.appendChild(imgElem);
+    var imgUrl = URL.createObjectURL(responseAsBlob);
+    imgElem.src = imgUrl;
   }
 
   function readResponseAsBlob(response) {
-    // TODO 3b
+    return response.blob();
   }
 
   function fetchImage() {
-    // TODO 3c
+    fetch('examples/kitten.jpg')
+      .then(validateResponse)
+      .then(readResponseAsBlob)
+      .then(showImage)
+      .catch(logError);
   }
 
   function showText(responseAsText) {
-    //  TODO 4a
+    var message = document.getElementById('message');
+    message.textContent = responseAsText;
   }
 
   function readResponseAsText(response) {
-    // TODO 4b
+    return response.text();
   }
 
   function fetchText() {
-    // TODO 4c
+    fetch('examples/words.txt')
+      .then(validateResponse)
+      .then(readResponseAsText)
+      .then(showText)
+      .catch(logError);
   }
 
   function headRequest() {
-    // TODO 5.1
+    fetch('examples/words.txt', {
+      method: 'HEAD'
+    })
+      .then(validateResponse)
+      .then(logSize)
+      .then(readResponseAsText)
+      .then(logResult)
+      .catch(logError);
   }
 
   function logSize(response) {
-    // TODO 5.2
+    console.log(response.headers.get('content-length'));
+    return response;
   }
 
   /* NOTE: Never send unencrypted user credentials in production! */
   function postRequest() {
-    // TODO 6.2
+    var formData = new FormData(document.getElementById('myForm'));
+    fetch('http://localhost:5000/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(validateResponse)
+      .then(readResponseAsText)
+      .then(logResult)
+      .catch(logError);
   }
 
   // Don't worry if you don't understand this, it's not part of the Fetch API.
